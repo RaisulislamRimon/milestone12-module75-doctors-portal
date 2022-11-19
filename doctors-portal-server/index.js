@@ -24,7 +24,7 @@ function verifyJWT(req, res, next) {
   // console.log(`token inside verifyJWT`, req.headers.authorization);
   const authHeader = req.headers.authorization;
   if (!authHeader) {
-    return res.status(401).send(`unauthorized access`);
+    return res.status(401).send({ message: `unauthorized access` });
   }
   const token = authHeader.split(` `)[1];
 
@@ -131,7 +131,7 @@ async function run() {
 
     app.post("/bookings", async (req, res) => {
       const booking = req.body;
-      console.log(booking);
+      // console.log(booking);
       const query = {
         appointmentDate: booking.appointmentDate,
         email: booking.email,

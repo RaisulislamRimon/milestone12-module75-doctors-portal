@@ -17,8 +17,8 @@ const SignUp = () => {
   const [createdUserEmail, setCreatedUserEmail] = useState("");
   const [token] = useToken(createdUserEmail);
 
-  if (token) {
-    navigate("/");
+  if (token && createdUserEmail !== ``) {
+    navigate(`/`);
   }
 
   const handleSignUp = (data) => {

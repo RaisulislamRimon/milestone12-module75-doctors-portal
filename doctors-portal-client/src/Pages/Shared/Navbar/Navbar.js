@@ -7,7 +7,9 @@ const Navbar = () => {
 
   const handleLogOut = () => {
     logOut()
-      .then(() => {})
+      .then(() => {
+        // localStorage.setItem(`accessToken: {}`);
+      })
       .catch(() => {});
   };
 
