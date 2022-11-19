@@ -3,6 +3,7 @@ import { useForm } from "react-hook-form";
 import toast from "react-hot-toast";
 import { Link, useNavigate } from "react-router-dom";
 import { AuthContext } from "../../contexts/AuthProvider";
+import useToken from "../../hooks/useToken";
 
 const SignUp = () => {
   const {
@@ -13,13 +14,19 @@ const SignUp = () => {
   const { createUser, updateUser } = useContext(AuthContext);
   const [signUpError, setSignUPError] = useState("");
   const navigate = useNavigate();
+  const [createdUserEmail, setCreatedUserEmail] = useState("");
+  const [token] = useToken(createdUserEmail);
+
+  if (token) {
+    navigate("/");
+  }
 
   const handleSignUp = (data) => {
     // console.log(data);
     setSignUPError("");
     createUser(data.email, data.password)
       .then((result) => {
-        const user = result.user;
+        // const user = result.user;
         // console.log(user);
         toast(`User Created Successfully.`);
         const userInfo = {
@@ -50,20 +57,21 @@ const SignUp = () => {
       .then((data) => {
         // console.log(data);
         // navigate(`/`);
-        getUserToken(email);
+        // getUserToken(email);
+        setCreatedUserEmail(email);
       });
   };
 
-  const getUserToken = (email) => {
-    fetch(`http://localhost:5000/jwt?email=${email}`)
-      .then((response) => response.json())
-      .then((data) => {
-        if (data.accessToken) {
-          localStorage.setItem(`accessToken`, data.accessToken);
-          navigate(`/`);
-        }
-      });
-  };
+  // const getUserToken = (email) => {
+  //   fetch(`http://localhost:5000/jwt?email=${email}`)
+  //     .then((response) => response.json())
+  //     .then((data) => {
+  //       if (data.accessToken) {
+  //         localStorage.setItem(`accessToken`, data.accessToken);
+  //         navigate(`/`);
+  //       }
+  //     });
+  // };
 
   return (
     <div className="h-[800px] flex justify-center items-center">
