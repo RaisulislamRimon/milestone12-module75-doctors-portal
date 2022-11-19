@@ -20,6 +20,17 @@ const client = new MongoClient(uri, {
   serverApi: ServerApiVersion.v1,
 });
 
+function verifyJWT(req, res, next) {
+  // console.log(`token inside verifyJWT`, req.headers.authorization);
+  const authHeader = req.headers.authorization;
+  if (!authHeader) {
+    return res.status(401).send(`unauthorized access`);
+  }
+  const token = authHeader.split(` `)[1];
+
+  next();
+}
+
 async function run() {
   try {
     const appointmentOptionsCollections = client
@@ -100,8 +111,9 @@ async function run() {
       res.send(options);
     });
 
-    app.get("/bookings", async (req, res) => {
+    app.get("/bookings", verifyJWT, async (req, res) => {
       const email = req.query.email;
+      console.log(`token`, req.headers.authorization);
       const query = { email: email };
       const bookings = await bookingsCollections.find(query).toArray();
       res.send(bookings);

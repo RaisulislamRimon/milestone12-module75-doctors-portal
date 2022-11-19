@@ -48,8 +48,20 @@ const SignUp = () => {
     })
       .then((response) => response.json())
       .then((data) => {
-        console.log(data);
-        navigate(`/`);
+        // console.log(data);
+        // navigate(`/`);
+        getUserToken(email);
+      });
+  };
+
+  const getUserToken = (email) => {
+    fetch(`http://localhost:5000/jwt?email=${email}`)
+      .then((response) => response.json())
+      .then((data) => {
+        if (data.accessToken) {
+          localStorage.setItem(`accessToken`, data.accessToken);
+          navigate(`/`);
+        }
       });
   };
 
