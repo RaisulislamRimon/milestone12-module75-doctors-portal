@@ -160,6 +160,12 @@ async function run() {
       res.status(401).send({ accessToken: "unauthorized access" });
     });
 
+    app.get("/allusers", async (req, res) => {
+      const query = {};
+      const users = await usersCollections.find(query).toArray();
+      res.send(users);
+    });
+
     app.post("/users", async (req, res) => {
       const user = req.body;
       const result = await usersCollections.insertOne(user);
