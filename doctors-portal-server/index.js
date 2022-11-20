@@ -172,6 +172,13 @@ async function run() {
       res.send(result);
     });
 
+    app.get(`/allusers/admin/:email`, async (req, res) => {
+      const email = req.params.email;
+      const query = { email: email };
+      const user = await usersCollections.find(query).toArray();
+      res.send({ isAdmin: user?.role === `admin` });
+    });
+
     app.put(`/allusers/admin/:id`, verifyJWT, async (req, res) => {
       const decodedEmail = req.decoded.email;
       const query = { email: decodedEmail };
