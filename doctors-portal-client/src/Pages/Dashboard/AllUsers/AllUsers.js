@@ -25,7 +25,7 @@ const AllUsers = () => {
     })
       .then((response) => response.json())
       .then((data) => {
-        console.log(data);
+        // console.log(data);
         if (data.modifiedCount > 0) {
           toast.success(`You have added another admin`);
           refetch();
@@ -64,7 +64,7 @@ const AllUsers = () => {
                     </button>
                   ) : (
                     <button
-                      onClick={() => handleMakeAdmin(alluser._id)}
+                      onClick={() => handleMakeAdmin(alluser?._id)}
                       className="btn btn-primary btn-xs"
                     >
                       Make Admin

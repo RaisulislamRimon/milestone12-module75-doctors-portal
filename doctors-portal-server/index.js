@@ -175,8 +175,9 @@ async function run() {
     app.get(`/allusers/admin/:email`, async (req, res) => {
       const email = req.params.email;
       const query = { email: email };
-      const user = await usersCollections.find(query).toArray();
-      res.send({ isAdmin: user?.role === `admin` });
+      const user = await usersCollections.findOne(query);
+      // console.log(user);
+      res.send({ isAdmin: user?.role === "admin" });
     });
 
     app.put(`/allusers/admin/:id`, verifyJWT, async (req, res) => {
